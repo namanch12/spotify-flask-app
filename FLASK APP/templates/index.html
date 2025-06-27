@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Spotify Music Recommender 🎧</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0e1117;
+      color: #ffffff;
+      text-align: center;
+    }
+    header {
+      background: url('/static/banner.jpg') no-repeat center center;
+      background-size: cover;
+      height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.2rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px #000;
+    }
+    form {
+      margin: 30px auto;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #1db954;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #17a44b;
+    }
+    .recommendation {
+      margin-top: 30px;
+      font-size: 20px;
+    }
+    .cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      gap: 15px;
+    }
+    .card {
+      background: #1c1f26;
+      border-radius: 12px;
+      padding: 20px;
+      width: 220px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    }
+    table {
+      margin: 30px auto;
+      border-collapse: collapse;
+      background-color: #1c1f26;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px 20px;
+      border: 1px solid #333;
+    }
+    th {
+      background-color: #282c34;
+    }
+    td {
+      background-color: #1c1f26;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    Spotify Music Recommender 🎶
+  </header>
+
+  <form method="POST">
+    <input type="text" name="song_name" placeholder="Enter song name" required>
+    <button type="submit">Recommend</button>
+  </form>
+
+  {% if song_name %}
+    <h2>Recommendations for: <span style="color:#1db954">{{ song_name }}</span></h2>
+  {% endif %}
+
+  {% if recommendations %}
+    <div class="cards">
+      {% for song in recommendations %}
+        <div class="card">
+          🎵 <strong>{{ song }}</strong>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if song_features %}
+    <h3>Audio Features of "{{ song_name }}"</h3>
+    <table>
+      <tr>
+        {% for key in song_features.keys() %}
+          <th>{{ key.replace('_', ' ').capitalize() }}</th>
+        {% endfor %}
+      </tr>
+      <tr>
+        {% for value in song_features.values() %}
+          <td>{{ '%.2f'|format(value) }}</td>
+        {% endfor %}
+      </tr>
+    </table>
+  {% endif %}
+
+</body>
+</html>
